@@ -9,13 +9,12 @@ export const ACTION_TYPES = {
 
 const formateData = data => ({
     ...data,
-    // age: parseInt(data.age ? data.age : 0)
 })
 
 export const fetchAll = () => dispatch => {
     api.task().fetchAll()
         .then(response => {
-            console.log("response====>>",response);
+            console.log("response====>>", response);
             dispatch({
                 type: ACTION_TYPES.FETCH_ALL,
                 payload: response.data
@@ -24,7 +23,7 @@ export const fetchAll = () => dispatch => {
         .catch(err => console.log(err))
 }
 
-export const create = (data=0, onSuccess) => dispatch => {
+export const create = (data = 0, onSuccess) => dispatch => {
     data = formateData(data)
     api.task().create(data)
         .then(res => {
@@ -37,7 +36,7 @@ export const create = (data=0, onSuccess) => dispatch => {
         .catch(err => console.log(err))
 }
 
-export const update = (id=0, data=0, onSuccess) => dispatch => {
+export const update = (id = 0, data = 0, onSuccess) => dispatch => {
     data = formateData(data)
     api.task().update(id, data)
         .then(res => {
@@ -50,7 +49,7 @@ export const update = (id=0, data=0, onSuccess) => dispatch => {
         .catch(err => console.log(err))
 }
 
-export const Delete = (id=0, onSuccess) => dispatch => {
+export const Delete = (id = 0, onSuccess) => dispatch => {
     api.task().delete(id)
         .then(res => {
             dispatch({

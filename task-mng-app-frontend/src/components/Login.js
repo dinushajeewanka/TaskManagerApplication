@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { TextField, Button, Grid, Typography, Container, Box, Checkbox, Link } from '@mui/material';
+import { TextField, Button, Grid, Typography, Container, Box, Checkbox, Link, FormControlLabel } from '@mui/material';
 import { useToasts } from 'react-toast-notifications';
 import { redirect } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 
-// import { useHistory } from 'react-router-dom';
-// import { useHistory } from 'react-router';
-const baseUrl = 'https://localhost:7090/api/Authentication/login';  // Update with your actual login endpoint
+const baseUrl = 'https://localhost:7090/api/Authentication/login';
 
 const LoginComponent = () => {
   const [username, setUsername] = useState('');
   const [passwordHash, setPassword] = useState('');
   const { addToast } = useToasts();
-  // const history = useHistory();
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -24,7 +21,6 @@ const LoginComponent = () => {
   };
 
   const handleLogin = async (event) => {
-    // history.push('/view-task');
     event.preventDefault();
 
     try {
@@ -32,17 +28,13 @@ const LoginComponent = () => {
       const token = response.data.token;
       console.log('Login successful. Token:', token);
 
-      await localStorage.setItem('token', token);
+      localStorage.setItem('token', token);
 
       // Display a success toast
       addToast('Login successful', { appearance: 'success' });
       window.location.href = '/view-task';
-      // <Redirect to="/view-task" />
     } catch (error) {
       console.error('Login failed:', error);
-      // <Redirect to="/view-task" />
-      // window.location.href = '/view-task';
-      // Display an error toast
       addToast('Login failed. Please try again.', { appearance: 'error' });
     }
   };
@@ -52,51 +44,71 @@ const LoginComponent = () => {
   }
 
   return (
-    <div className='login-container'>
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="h6">Login</Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <TextField
-          label="Username"
-          value={username}
-          onChange={handleUsernameChange}
-          variant="outlined"
-          fullWidth
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <TextField
-          label="Password"
-          type="password"
-          value={passwordHash}
-          onChange={handlePasswordChange}
-          variant="outlined"
-          fullWidth
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Button variant="contained" color="primary" onClick={handleLogin}>
-          Login
-        </Button>
-      </Grid>
-        <Grid item xs={12}>
-          <div style={{display: 'inline-flex'}}>
-          <div style={{display: 'flex', marginRight: '10px'}}>
-            You want to be a member? 
-            </div>
-            <Link variant="contained" color="primary" onClick={handleRegister}>
-              Register
-             
-            </Link>
-            </div>
-          
-        
-      </Grid>
-      </Grid>
-      </div>
-
+    <Container component="main" maxWidth="sm">
+      <Box
+        sx={{
+          boxShadow: 3,
+          borderRadius: 2,
+          px: 4,
+          py: 6,
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
+        <Box component="form" onSubmit={handleLogin} noValidate sx={{ mt: 1 }}>
+          <TextField
+            label="Username"
+            value={username}
+            onChange={handleUsernameChange}
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            required
+            autoComplete="username"
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            autoComplete="current-password"
+            label="Password"
+            type="password"
+            value={passwordHash}
+            onChange={handlePasswordChange}
+            variant="outlined"
+          />
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign In
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <Link href="#" variant="body2">
+                Forgot password?
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link variant="contained" color="primary" onClick={handleRegister}>
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
+        </Box>
+      </Box>
+    </Container>
   );
 };
 

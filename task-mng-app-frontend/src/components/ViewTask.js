@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actions from "../actions/task";
 import { Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, ButtonGroup, Button} from '@mui/material';
-// import {withStyles} from "@mui/styles"
-// import {EditIcon, DeleteIcon} from "@mui/icons-material";
 import { withStyles } from '@mui/styles';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -11,7 +9,7 @@ import { useToasts } from "react-toast-notifications";
 import UpdateTask from "./UpdateTask";
 import { StylesProvider } from '@mui/styles';
 import moment from 'moment';
-// import { Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
+import { useNavigate } from "react-router-dom";
 
 const styles = theme => ({
   root: {
@@ -27,14 +25,19 @@ const styles = theme => ({
 
 const ViewTask = ({ classes, taskList, fetchAllTask, deleteTask }) => {
   const [currentId, setCurrentId] = useState(0);
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchAllTask();
   }, [fetchAllTask]);
 
   const getUserToken = async () => {
-    const userToken = await localStorage.getItem('token');
+    const userToken = localStorage.getItem('token');
     console.log("USER Token", userToken);
+    if (!userToken) {
+      localStorage.clear()
+      navigate('/')
+    }
   }
 
   useEffect(() => {
@@ -73,7 +76,6 @@ const ViewTask = ({ classes, taskList, fetchAllTask, deleteTask }) => {
                       <TableCell>{record.title}</TableCell>
                       <TableCell>{record.description}</TableCell>
                       <TableCell>{record.isCompleted ? 'Done' : 'Pending'}</TableCell>
-                      {/* <TableCell>{record.dueDate}</TableCell> */}
                       <TableCell>{record.dueDate ? moment(record.dueDate).format('YYYY-MM-DD') : ''}</TableCell>
                       <TableCell>
                         <ButtonGroup variant="text">

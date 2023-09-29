@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import * as actions from "../actions/task";
 import { useToasts } from "react-toast-notifications";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 
 const styles = theme => ({
@@ -25,6 +26,7 @@ const styles = theme => ({
     },
     smMargin: {
         margin: 4,
+
     }
 })
 
@@ -33,17 +35,14 @@ const initialFieldValues = {
     description: '',
     isCompleted: '',
     dueDate: ''
-    // bloodGroup: '',
-    // address: ''
 }
 
 
 const UpdateTask = ({ classes, ...props }) => {
     //toast msg.
     const { addToast } = useToasts()
+    const navigate = useNavigate()
 
-    //validate()
-    //validate({fullName:'jenny'})
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
         if ('title' in fieldValues)
@@ -62,6 +61,11 @@ const UpdateTask = ({ classes, ...props }) => {
             return Object.values(temp).every(x => x == "")
     }
 
+    const handleLogOut = () => {
+        localStorage.clear()
+        navigate('/')
+    }
+
     const {
         values,
         setValues,
@@ -71,7 +75,6 @@ const UpdateTask = ({ classes, ...props }) => {
         resetForm
     } = useForm(initialFieldValues, validate, props.setCurrentId)
 
-    //material-ui select
     const inputLabel = React.useRef(null);
     const [labelWidth, setLabelWidth] = React.useState(0);
     React.useEffect(() => {
@@ -141,8 +144,10 @@ const UpdateTask = ({ classes, ...props }) => {
                                 value={values.isCompleted}
                                 onChange={handleInputChange}
                                 labelWidth={labelWidth}
+                                style={{ width: '235px' }}
+
                             >
-                                <MenuItem value="">Select Task Status</MenuItem>
+                                <MenuItem value="" style={{ width: '100px' }}>Select Task Status</MenuItem>
                                 <MenuItem value={false} >Pending</MenuItem>
                                 <MenuItem value={true} >Done</MenuItem>
                             </Select>
@@ -150,15 +155,6 @@ const UpdateTask = ({ classes, ...props }) => {
                         </FormControl>
                     </Grid>
                     <Grid item xs={6}>
-                        {/* <TextField
-                            name="dueDate"
-                            variant="outlined"
-                            label="Due Date"
-                            value={values.dueDate}
-                            onChange={handleInputChange}
-                            {...(errors.dueDate && { error: true, helperText: errors.dueDate })}
-                        /> */}
-
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                                 label="Due Date"
@@ -174,23 +170,37 @@ const UpdateTask = ({ classes, ...props }) => {
                                 )}
                             />
                         </LocalizationProvider>
-
                         <div>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                type="submit"
-                                className={classes.smMargin}
-                            >
-                                Submit
-                            </Button>
-                            <Button
-                                variant="contained"
-                                className={classes.smMargin}
-                                onClick={resetForm}
-                            >
-                                Reset
-                            </Button>
+                            <div style={{ marginBottom: '10px' }}>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    type="submit"
+                                    className={classes.smMargin}
+                                >
+                                    Submit
+                                </Button>
+                            </div>
+                            <div style={{ marginBottom: '10px' }}>
+                                <Button
+                                    variant="contained"
+                                    className={classes.smMargin}
+                                    style={{ backgroundColor: 'green', color: 'white' }}
+                                    onClick={resetForm}
+                                >
+                                    Reset
+                                </Button>
+                            </div>
+                            <div>
+                                <Button
+                                    variant="contained"
+                                    className={classes.smMargin}
+                                    style={{ backgroundColor: 'red', color: 'white' }}
+                                    onClick={handleLogOut}
+                                >
+                                    log out
+                                </Button>
+                            </div>
                         </div>
                     </Grid>
                 </Grid>
