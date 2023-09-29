@@ -41,7 +41,7 @@ namespace TaskMngAppBackend.Controllers
 
             var userId = user.Id;
 
-            // Now you have the user ID and can use it in your logic
+            
 
             var tasks = await _context.Tasks.Where(t => t.UserId == userId).ToListAsync();
             return Ok(tasks);
