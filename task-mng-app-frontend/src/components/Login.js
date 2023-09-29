@@ -56,7 +56,9 @@ const LoginComponent = () => {
           flexDirection: "column",
           alignItems: "center",
         }}
-      >
+      ><Typography component="h1" variant="h5">
+          Welcome Task Management Application
+        </Typography>
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
