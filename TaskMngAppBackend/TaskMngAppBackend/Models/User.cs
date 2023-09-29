@@ -20,7 +20,5 @@ namespace TaskMngAppBackend.Models
         [Column(TypeName = "nvarchar(100)")] 
         public string Email { get; set; }
 
-        // Navigation property to access the tasks associated with this user
-        //public virtual ICollection<Task> Tasks { get; set; }
     }
 }

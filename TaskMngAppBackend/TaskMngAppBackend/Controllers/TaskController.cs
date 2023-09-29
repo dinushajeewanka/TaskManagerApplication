@@ -61,7 +61,6 @@ namespace TaskMngAppBackend.Controllers
 
             var username = usernameClaim.Value;
 
-            // Use the username to get the associated user ID
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
 
             if (user == null)

@@ -18,7 +18,7 @@ namespace TaskMngAppBackend.Models
        public DateTime DueDate { get; set; }
        public int UserId { get; set; } //foreign key to associate task with a user
 
-        // Navigation property to access the associated user
+       
         public virtual User User { get; set; }
     }
 
